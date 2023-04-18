@@ -1,0 +1,187 @@
+{% extends "eBayoPage.html" %}
+{% block content -%}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    background-color: #f2f2f2;
+    padding: 1rem;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+nav a {
+    color: #333;
+    text-decoration: none;
+}
+
+main {
+    padding: 1rem;
+}
+
+section {
+    margin-bottom: 2rem;
+}
+
+section h2 {
+    margin-top: 0;
+}
+
+.imagen {
+    display: inline-block;
+    margin-right: 1rem;
+    vertical-align: top;
+}
+
+.imagen img {
+    display: block;
+    margin-bottom: 0.5rem;
+    max-width: 100%;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documentación</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#seccion7">Afeguir productes</a></li>
+            <li><a href="#seccion1">Plantilla Base</a></li>
+            <li><a href="#seccion2">Plantilla Botiga</a></li>
+            <li><a href="#seccion3">Plantilla Producte</a></li>
+            <li><a href="#seccion4">Plantilla About</a></li>
+            <li><a href="#seccion5">Main Botiga</a></li>
+            <li><a href="#seccion6">Coneccions</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="seccion7">
+            <h2>Afeguir productes</h2>
+             <h4>Primer que tot tenim crear una pantalla aquest cas amb tkinter per tal de tindre una pantalla per afegir els productes</h4>
+            <div class="imagen">
+                <img src='static/Seleccio_215.png'>
+                <p>tkinter </p>
+            </div>
+            <h2>Plantilla Base</h2>
+            <h4>El primer que hem de fer es crear una carpeta template en la qual afegirem tots els html's de les nostres plantilles de la pagina web</h4>
+            <h4>A la plantilla base afegirem un nav, el qual ens permetra accedir, a la paguina web, principal, i al about, també ens perfemetrar ordenar la pagina web amb de diferentes formes que veurem posteriormen,  dintre de la mateixa afegirem l'inici i el final del block conten que serà on es trobaran els productes, i finalment el peu de pagina </h4>
+            <div class="imagen">
+                <img src='static/Selecció_216.png'>
+                <p>Carpeta de templates</p>
+            </div>
+            <div class="imagen">
+                <img src='static/Selecció_218.png'>
+                <p>Plantilla base</p>
+            </div>
+            <div class="imagen">
+                <img src='static/Selecció_219.png'>
+                <p>Aqui trobem el nav</p>
+            </div>
+            <div class="imagen">
+                <img src='static/Selecció_220.png'>
+                <p>Aqui es trobara el block dels productes</p>
+            </div>
+            <div class="imagen">
+                <img src='static/Selecció_221.png'>
+                <p>Aqui trobem el final de pagina</p>
+            </div>
+        </section>
+        <section id="seccion2">
+            <h2>Plantilla Botiga</h2>
+            <h4>En aquest html trobarem tota la informació de tots els productes, per fer això treballarem amb un for, que anira agarran la informacó de tots els productes i ficanla a les seves caselles amb les variables de productes</h4>
+             <div class="imagen">
+                <img src='static/Selecció_222.png'>
+            </div>
+            <div class="imagen">
+                <img src='static/Selecció_223.png'>
+                <p>Per ficar les estrelles crearem una carpeta static i ficarem la seguent lina al src, d'aquesta forma el programa lleguix les imatges locals</p>
+            </div>
+        </section>
+        <section id="seccion3">
+            <h2>Plantilla Producte</h2>
+            <h4>
+                Posteriorment, creem la pantalla individual de cada producte, aquí farem el mateix que a la pantalla de tots els productes, però en aquest cas solament agafarem 1, també canviem una mica l'estructura tant del CSS com de l'HTML per tal de fer-ho més detallat per a cada producte, afegir la descripció llarga, per l'altra banda continuen estant totes les dades dintre del for per tal de ser distribuïdes amb la variable productes.
+            </h4>
+            <div class="imagen">
+                <img src='static/Selecció_224.png'>
+                <p>Plantilla Informacio individual dels products</p>
+            </div>
+        </section>
+        <section id="seccion5">
+            <h2>Main Botiga</h2>
+            <h4>
+                També tenim el .py de les rutes web, aquí indiquem com s'accedeix a cada ruta i el que fa cada una d'aquestes pàgines web, com és el cas de les d'ordenació que hem nomenat anteriorment, que li diuen a la pantalla com té que ordenar en cada cas els productes.
+            </h4>
+            <div class="imagen">
+                <img src='static/Selecció_227.png'>
+                <p>En aquest cas es mostra com s'ordena tant de forma accendent i decendent el preu</p>
+            </div>
+        </section>
+        <section id="seccion6">
+            <h2>Coneccions</h2>
+            <h4>
+                També tenim el .py de les connexions aquí és on es troben els connectors a MongoDB i els vincles entre el .py i la pantalla en qüestió
+            </h4>
+            <div class="imagen">
+                <img src='static/Selecció_226.png'>
+            </div>
+        </section>
+        <section id="seccion4">
+            <h2>Plantilla About</h2>
+            <h4>
+                Finalment, tenim la pantalla de l'about, on simplement comentem com hem fet el projecte, en aquest cas no fa falta passar-li cap informació a aquesta pantalla, ja que sols es necessita el que li estem escrivint a l'html
+            </h4>
+            <div class="imagen">
+                <img src='static/Selecció_225.png'>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+{% endblock -%}
+
+
+
+            <div class="imagen">
+                <img src='static/'>
+                <p></p>
+            </div>
+
+
+

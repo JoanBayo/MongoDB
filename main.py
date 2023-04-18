@@ -1,16 +1,29 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import json
+from types import SimpleNamespace
 
 
-# Press the green button in the gutter to run the script.
+class ordinador:
+    def __init__(self, marca, modelo, cpu, ram):
+        self.marca, self.modelo, self.cpu, self.ram  = marca, modelo, cpu, ram
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    o1 = ordinador("HP", "250 G7","INTEL I3-10110U", "8")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    #objecte a json
+    json_o1 = json.dumps(o1.__dict__)
+    print("JSON creat des de objecte: ",json_o1)
+
+    #json a fitxer:
+    with open('ordinadors.json','w') as fitxer:
+        json.dump(json_o1,fitxer)
+
+    #fitxer a json:
+    with open('ordinadors.json') as fitxer:
+        json_02 = json.load(fitxer)
+        print("JSON llegit des de fitxer: ",json_02)
+
+    #json a objecte:
+    o2 = json.loads(json_02,object_hook=lambda d:SimpleNamespace(**d))
+    print(o2.ram)

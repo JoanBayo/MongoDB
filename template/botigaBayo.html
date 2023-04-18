@@ -1,0 +1,47 @@
+{% extends "eBayoPage.html" %}
+{% block content -%}
+
+<div class="row row-cols-1 row-cols-md-3 g-4 p-5 mt-3">
+      {% for producte in productes -%}
+    <div class="col">
+    <div class="card h-100">
+      <img src='{{ producte.get("imatge") }}' class="card-img-top" alt='{{ producte.get("nom") }}' title='{{ producte.get("nom") }} / {{ producte.get("descripcio") }}'>
+      <div class="card-body">
+        <h1><a class="dropdown-item card-title" style="margin: 0; font-size: 36px; font-weight: bold;" href="/producto/{{ producte.get('_id') }}">{{ producte.get("nom") }}</a></h1>
+        <p class="card-text">
+                <div style="border: 2px solid black; border-radius: 8px; padding: 20px; background-color: #f8f9fa; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
+                    <h4 style="font-size: 20px; margin-bottom: 10px;">{{ producte.get("descripcio") }}</h4>
+                </div>
+        </p>
+      </div>
+        <div class="card-footer">
+            {% if producte.valoracio == 5.0 %}
+                <small style="float: left"><img src='static/5Estrella.png' alt='Excelent quality' title="Perfect quality"></small>
+            {% elif producte.valoracio > 4 and producte.valoracio < 5 %}
+                <small style="float: left"><img src='static/45Estrella.png' alt='Excelent Quality' title='Excelent Quality'></small>
+            {% elif producte.valoracio == 4%}
+                <small style="float: left"><img src='static/4Estrella.png' alt='Very Good Quality' title='Very Good Quality'></small>
+            {% elif producte.valoracio > 3 and producte.valoracio < 4 %}
+                <small style="float: left"><img src='static/35Estrella.png' alt='Good Quality' title='Good Quality'></small>
+            {% elif producte.valoracio == 3 %}
+                <small style="float: left"><img src='static/3Estrella.png' alt='Medium Quality' title='Medium Quality'></small>
+            {% elif producte.valoracio > 2 and producte.valoracio < 3 %}
+                <small style="float: left"><img src='static/25Estrella.png' alt='Normal Quality' title='Normal Quality'></small>
+            {% elif producte.valoracio == 2 %}
+                <small style="float: left"><img src='static/2Estrella.png' alt='Fair Quality' title='Fair Quality'></small>
+            {% elif producte.valoracio > 1 and producte.valoracio < 2 %}
+                <small style="float: left"><img src='static/15Estrella.png' alt='Bad Quality' title='Bad Quality'></small>
+            {% elif producte.valoracio == 1 %}
+                <small style="float: left"><img src='static/1Estrella.png' alt='Very Bad Quality' title='Very Bad Quality'></small>
+            {% endif %}
+          <h1 style="float: right"><b>{{ producte.get("preu") }} €</b></h1>
+        </div>
+    </div>
+  </div>
+      {% endfor -%}
+</div>
+{% endblock -%}
+
+
+
+

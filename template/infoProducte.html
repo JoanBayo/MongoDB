@@ -1,0 +1,59 @@
+{% extends "eBayoPage.html" %}
+{% block content -%}
+
+
+<div class="container g-4 p-5 mt-5">
+    {% for producte in productes -%}
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="images p-3">
+                            <div class="text-center p-4"> <img src='{{ producte.get("imatge") }}' class="card-img-top" alt='{{ producte.get("nom") }}' title='{{ producte.get("nom") }}' width="250" /> </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product p-4">
+                            <div class="mt-4 mb-3">
+                                <h5 class="text-uppercase">{{ producte.get("nom") }}</h5>
+                                <div class="price d-flex flex-row align-items-center"><span class=" h1 act-price fw-bold">{{ producte.get("preu") }}€</span>
+                                </div>
+                            </div><span class="text-uppercase text-muted brand margin-bot: 2px;">{{ producte.get("descripcio")}}</span>
+                            <p class="about me-2" style="text-align: justify;">{{ producte.get("longDescripcio") }}</p>
+                            <div class="sizes mt-5">
+                                <h6 class="text-uppercase">Valoració</h6>
+                                <div>
+                                    {% if producte.valoracio == 5.0 %}
+                                        <small style="float: left"><img src='/static/5Estrella.png' alt='Excelent quality' title="Perfect quality"></small>
+                                    {% elif producte.valoracio > 4 and producte.valoracio < 5 %}
+                                        <small style="float: left"><img src='/static/45Estrella.png' alt='Excelent Quality' title='Excelent Quality'></small>
+                                    {% elif producte.valoracio == 4%}
+                                        <small style="float: left"><img src='/static/4Estrella.png' alt='Very Good Quality' title='Very Good Quality'></small>
+                                    {% elif producte.valoracio > 3 and producte.valoracio < 4 %}
+                                        <small style="float: left"><img src='/static/35Estrella.png' alt='Good Quality' title='Good Quality'></small>
+                                    {% elif producte.valoracio == 3 %}
+                                        <small style="float: left"><img src='/static/3Estrella.png' alt='Medium Quality' title='Medium Quality'></small>
+                                    {% elif producte.valoracio > 2 and producte.valoracio < 3 %}
+                                        <small style="float: left"><img src='/static/25Estrella.png' alt='Normal Quality' title='Normal Quality'></small>
+                                    {% elif producte.valoracio == 2 %}
+                                        <small style="float: left"><img src='/static/2Estrella.png' alt='Fair Quality' title='Fair Quality'></small>
+                                    {% elif producte.valoracio > 1 and producte.valoracio < 2 %}
+                                        <small style="float: left"><img src='/static/15Estrella.png' alt='Bad Quality' title='Bad Quality'></small>
+                                    {% elif producte.valoracio == 1 %}
+                                        <small style="float: left"><img src='/static/1Estrella.png' alt='Very Bad Quality' title='Very Bad Quality'></small>
+                                    {% endif %}
+                                </div>
+                             </div>
+                            <div class="cart mt-5 mb-4 align-items-center" style="float: right;"> <button class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+          {% endfor -%}
+</div>
+
+{% endblock -%}
+
