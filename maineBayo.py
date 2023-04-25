@@ -1,9 +1,19 @@
-from flask import Flask
+from flask import Flask, request, render_template, session
 from bson import ObjectId
 
-from eBayoFuncions import connectar, implementaPlantilla, implementaPlantillaInfoProducte, implementaPlantillaAbout
+import comandes.component1 as c
+import comandes.comanda as com
+
+
+from flask_session import Session
+
+from eBayoFuncions import *
 
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
 
 
 @app.route("/")
@@ -107,7 +117,7 @@ def mostrarPerIdDescendent():
 def mostrainformacioProducte(idProducto):
     p = connectar()
     productes = []
-
+    session["idProducte"] = idProducto
     myquery = {"_id": ObjectId(idProducto)}
 
     mydoc = p.find(myquery)
@@ -130,3 +140,51 @@ def mostrainformacioAbout():
 
     return f'{contingut}'
 
+
+@app.route('/addPorductCar', methods=('GET', 'POST'))
+def addPorductCar():
+    quantitat = request.form['idquantitat']
+
+    p = connectar()
+    productes = []
+    myquery = {"_id": ObjectId(session["idProducte"])}
+
+    mydoc = p.find(myquery)
+
+    for x in mydoc:
+        productes.append(x)
+
+    productes = {"productes": productes}
+
+    c1 = com.comanda(session["idProducte"], quantitat, productes.get("preu"))
+
+    if c.UpdateObject(session["idProducte"], "comandes.bin", c1):
+        pass
+    else:
+        c.saveObject(c1, "comandes.bin")
+
+    contingut = implementaPlantillaInfoProducte(productes)
+
+    return f'{contingut}'
+
+
+@app.route("/yourBasket")
+def mostrainformacioBasket():
+
+    arrayCompres = c.restoreAllBasket("comandes.bin")
+
+    basket = {"items": arrayCompres}
+
+    contingut = implementaPlantillaBasket(basket)
+
+    return f'{contingut}'
+
+
+@app.route("/deleteProduct")
+def delete_one_product_basket():
+    c.removeObject(session["idProducte"], "comandes.bin")
+
+
+@app.route("/deleteAllProduct")
+def delete_all_product_basket():
+    c.RemoveFile("comandes.bin")

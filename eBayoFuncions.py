@@ -28,3 +28,11 @@ def implementaPlantillaAbout(productes):
     template = enviroment.get_template("about.html")
     contingut = template.render(productes)
     return contingut
+
+
+def implementaPlantillaBasket(basket):
+    enviroment = Environment(loader=FileSystemLoader("template/"))
+    template = enviroment.get_template("basket.html")
+    contingut = template.render(basket)
+    return contingut
+

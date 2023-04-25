@@ -149,6 +149,7 @@ def modifyProducte():
     except Exception:
         lbl_Answer.config(text="Selecciona un producte")
 
+
 def deleteProducte():
     try:
         myclient = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -172,6 +173,7 @@ def deleteAll():
     lbl_Answer.config(text=str(deleteProducte.deleted_count) + " documents deleted.")
 
     readProducte()
+
 
 def leaveGame():
     window.destroy()
@@ -278,8 +280,6 @@ tree.pack()
 
 lbl_Answer.pack()
 buttonGetOut.pack()
-
-
 
 
 def readProducte():

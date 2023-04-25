@@ -35,6 +35,8 @@ def UpdateObject(index, fileName, newObject):
         saveObject(newObject, fileName)
         file.close()
 
+    return True
+
 
 def removeObject(index, fileName):
     comanda = []
@@ -56,3 +58,15 @@ def removeObject(index, fileName):
 def RemoveFile(fileName):
     with open(fileName, "wb") as file:
         file.close()
+
+def restoreAllBasket(fileName):
+    arrayObject = []
+    with open(fileName, "rb") as file:
+        while True:
+            try:
+                object1 = pickle.load(file)
+                arrayObject.append(object1)
+            except EOFError:
+                break
+        file.close()
+        return arrayObject

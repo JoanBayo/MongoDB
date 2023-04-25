@@ -18,72 +18,74 @@ def on_connect(client, userdata, flags, rc):
     print('connected (%s)' % client._client_id)
     client.subscribe(topic='Microdesys/f/m1command', qos=2)
 
-    def on_message(client, userdata, message):
-        global status, queueInfinitTotal,queueInfinit, queueList
-        print(message.payload.decode().strip('{}'))
+def on_message(client, userdata, message):
+    global status, queueInfinitTotal,queueInfinit, queueList
 
-        # START
-        if message.payload.decode().strip('{}') == 'm1start':
-            if status == "OFF":
-                client.publish("resposta/maquina", "STATUS SET ON")
-                status = "ON"
-                print(status)
-            else:
-                client.publish("resposta/maquina", "STATUS ALREADY ON")
-                print(status)
+    # START
+    if message.payload.decode().strip('{}') == 'm1start':
+        if status == "OFF":
+            client.publish("resposta/maquina", "STATUS SET ON")
+            status = "ON"
+        else:
+            client.publish("resposta/maquina", "STATUS ALREADY ON")
 
-            # STOP
-            if message.payload.decode().strip('{}') == 'm1stop':
-                if status == "ON":
-                    client.publish("resposta/maquina", "STATUS SET OFF")
-                    status = "OFF"
-                print(status)
-            else:
-                client.publish("resposta/maquina", "STATUS ALREADY OFF")
-                print(status)
+        # STOP
+    if message.payload.decode().strip('{}') == 'm1stop':
+        if status == "ON":
+            client.publish("resposta/maquina", "STATUS SET OFF")
+            status = "OFF"
+        else:
+            client.publish("resposta/maquina", "STATUS ALREADY OFF")
 
-        # RESET
-        if message.payload.decode().strip('{}') == 'm1reset':
+    # RESET
+    if message.payload.decode().strip('{}') == 'm1reset':
+        if status == "ON":
             client.publish("resposta/maquina", "A5")
             status = "OFF"
-            print(status)
             time.sleep(10)
             client.publish("resposta/maquina", "STATUS RESET CORRECTLY")
             status = "ON"
-            print(status)
+        else:
+            client.publish("resposta/maquina", "THE MACHINE IS OFF")
 
-        # EMERGENCIA
-        if message.payload.decode().strip('{}') == 'm1emer':
-            client.publish("resposta/maquina", "D1")
 
-        # FER DOS PECES
-        if message.payload.decode().strip('{}') == 'm1produce02':
-            print(queueList)
+    # EMERGENCIA
+    if message.payload.decode().strip('{}') == 'm1emer':
+        client.publish("resposta/maquina", "D1")
+
+    # FER DOS PECES
+    if message.payload.decode().strip('{}') == 'm1produce02':
+        if status == "ON":
             queueList = queueList + 2
             client.publish("resposta/maquina", "S'HAN AFEGIT DOS PECES")
-            client.publish("resposta/maquina", "ARA HI HA " + queueList + " PECES A PRODUCCIO")
-            print(status)
+            client.publish("resposta/maquina", "ARA HI HA " + str(queueList) + " PECES A PRODUCCIO")
+        else:
+            client.publish("resposta/maquina", "THE MACHINE IS OFF")
 
-        # START PRODUCE INDIVIDUAL
-        if message.payload.decode().strip('{}') == 'm1startproduce':
+    # START PRODUCE INDIVIDUAL
+    if message.payload.decode().strip('{}') == 'm1startproduce':
+        if status == "ON":
+            print("hola")
             if queueList > 0:
-                client.publish("resposta/maquina", "PRODUINT " + queueList + " PECES")
+                print("hola2")
+                client.publish("resposta/maquina", "PRODUINT " + str(queueList) + " PECES")
                 print(status)
                 while queueList > 0:
-                    time.sleep(5)
                     queueList = queueList - 1
                     if queueList == 1:
                         client.publish("resposta/maquina", "A2")
-                    else:
-                        client.publish("resposta/maquina", "QUEDEN " + queueList + "PER PRODUIR")
+                    elif queueList > 1:
+                        client.publish("resposta/maquina", "QUEDEN " + str(queueList) + " PER PRODUIR")
 
-                time.sleep(5)
                 client.publish("resposta/maquina", "A1")
             else:
                 client.publish("resposta/maquina", "NO HI HA PECES PER A PRODUCCIO")
+        else:
+            client.publish("resposta/maquina", "THE MACHINE IS OFF")
 
-        # FER PECES INFINITES
-        if message.payload.decode().strip('{}') == 'm1startproduceinfinit':
+    # FER PECES INFINITES
+    if message.payload.decode().strip('{}') == 'm1startproduceinfinit':
+        if status == "ON":
             while True:
                 time.sleep(5)
                 numero_aleatorio = random.randint(1, 20)
@@ -95,23 +97,24 @@ def on_connect(client, userdata, flags, rc):
                     client.publish("resposta/maquina", "m1partleaving = 0")
                     paraProduccioIninita(message)
                 if final == 1:
-                    client.publish("resposta/maquina", "m1picesproduced = " + queueInfinitTotal)
-                    client.publish("resposta/maquina", "m1goodpicesproduced = " + queueInfinit)
+                    client.publish("resposta/maquina", "m1picesproduced = " + str(queueInfinitTotal))
+                    client.publish("resposta/maquina", "m1goodpicesproduced = " + str(queueInfinit))
                     break
+        else:
+            client.publish("resposta/maquina", "THE MACHINE IS OFF")
+def paraProduccioIninita(message):
+    global final
+    print(message.payload.decode().strip('{}'))
+    if message.payload.decode().strip('{}') == 'm1stopproduceinfinit':
+        final = 1
 
-    def paraProduccioIninita(message):
-        global final
-        print(message.payload.decode().strip('{}'))
-        if message.payload.decode().strip('{}') == 'm1stopproduceinfinit':
-            final = 1
-
-    # print('------------------------------')
-    # print('topic: %s' % message.topic)
-    # print('payload: %s' % message.payload.decode())
-    # print('qos: %d' % message.qos)
+# print('------------------------------')
+# print('topic: %s' % message.topic)
+# print('payload: %s' % message.payload.decode())
+# print('qos: %d' % message.qos)
 
 
-def main(on_message=None):
+def main():
     client = mqtt.Client(client_id='Microdesys/f/m1command', clean_session=False)
     client.on_connect = on_connect
     client.on_message = on_message
@@ -122,6 +125,6 @@ def main(on_message=None):
 if __name__ == '__main__':
     main()
 
-sys.exit(0)
+    sys.exit(0)
 
 

@@ -1,7 +1,7 @@
 {% extends "eBayoPage.html" %}
 {% block content -%}
 
-
+<form method="POST" action="/addPorductCar">
 <div class="container g-4 p-5 mt-5">
     {% for producte in productes -%}
     <div class="row d-flex justify-content-center">
@@ -19,6 +19,8 @@
                                 <h5 class="text-uppercase">{{ producte.get("nom") }}</h5>
                                 <div class="price d-flex flex-row align-items-center"><span class=" h1 act-price fw-bold">{{ producte.get("preu") }}€</span>
                                 </div>
+
+
                             </div><span class="text-uppercase text-muted brand margin-bot: 2px;">{{ producte.get("descripcio")}}</span>
                             <p class="about me-2" style="text-align: justify;">{{ producte.get("longDescripcio") }}</p>
                             <div class="sizes mt-5">
@@ -45,7 +47,15 @@
                                     {% endif %}
                                 </div>
                              </div>
-                            <div class="cart mt-5 mb-4 align-items-center" style="float: right;"> <button class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i> </div>
+                            <div class="input-group">
+                              <label class="input-group-text mt-3" for="idquantitat">Cantidad</label>
+                              <input type="number" class="form-control mt-3" id="idquantitat" name="idquantitat" min="0" max="10" value="0">
+                            </div>
+                            <div class="cart mt-5 mb-4 align-items-center" style="float: right;">
+                                <button type="submit" class="btn btn-danger text-uppercase mr-2 px-4" href="/addPorductCar">Add to cart</button>
+                                <i class="fa fa-heart text-muted"></i>
+                                <i class="fa fa-share-alt text-muted"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,6 +64,6 @@
     </div>
           {% endfor -%}
 </div>
-
+</form>
 {% endblock -%}
 

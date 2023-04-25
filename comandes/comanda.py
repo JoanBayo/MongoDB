@@ -1,7 +1,6 @@
 class comanda:
-    def __init__(self, id, idproducte, quantity, price):
+    def __init__(self, id, quantity, price):
         self.id = id
-        self.idproducte = idproducte
         self.quantity = quantity
         self.price = price
 
