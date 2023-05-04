@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, redirect
 from bson import ObjectId
 
 import comandes.component1 as c
@@ -115,18 +115,27 @@ def mostrarPerIdDescendent():
     return f'{contingut}'
 @app.route("/producto/<idProducto>")
 def mostrainformacioProducte(idProducto):
+
+    session["idProducte"] = idProducto
+
+    arrayCompres = c.restoreAllBasket("comandes.bin")
+    quantiatProducte = 0
+
+    for a in arrayCompres:
+        if a.id == idProducto:
+            quantiatProducte += int(a.quantity)
+            if quantiatProducte is None:
+                quantiatProducte = 0
+
     p = connectar()
     productes = []
-    session["idProducte"] = idProducto
     myquery = {"_id": ObjectId(idProducto)}
-
     mydoc = p.find(myquery)
 
     for x in mydoc:
         productes.append(x)
 
-    productes = {"productes": productes}
-
+    productes = {"productes": productes, "quantiatProducte": quantiatProducte}
     contingut = implementaPlantillaInfoProducte(productes)
 
     return f'{contingut}'
@@ -143,6 +152,7 @@ def mostrainformacioAbout():
 
 @app.route('/addPorductCar', methods=('GET', 'POST'))
 def addPorductCar():
+
     quantitat = request.form['idquantitat']
 
     p = connectar()
@@ -156,7 +166,7 @@ def addPorductCar():
 
     productes = {"productes": productes}
 
-    c1 = com.comanda(session["idProducte"], quantitat, productes.get("preu"))
+    c1 = com.comanda(session["idProducte"], quantitat, productes.get("price"))
 
     if c.UpdateObject(session["idProducte"], "comandes.bin", c1):
         pass
@@ -165,15 +175,19 @@ def addPorductCar():
 
     contingut = implementaPlantillaInfoProducte(productes)
 
-    return f'{contingut}'
+    return redirect('/producto/' + session["idProducte"])
 
 
 @app.route("/yourBasket")
 def mostrainformacioBasket():
 
     arrayCompres = c.restoreAllBasket("comandes.bin")
-
-    basket = {"items": arrayCompres}
+    preuTotal = 0.00
+    print(arrayCompres)
+    for a in arrayCompres:
+        print(a.price)
+        preuTotal += a.price
+    basket = {"items": arrayCompres, "preuTotal": preuTotal}
 
     contingut = implementaPlantillaBasket(basket)
 
@@ -188,3 +202,9 @@ def delete_one_product_basket():
 @app.route("/deleteAllProduct")
 def delete_all_product_basket():
     c.RemoveFile("comandes.bin")
+
+@app.route('/producto/delete')
+def delete_one_product_on_products_page():
+    c.removeObject( session["idProducte"], "comandes.bin")
+
+    return redirect('/producto/' + session["idProducte"])

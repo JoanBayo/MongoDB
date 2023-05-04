@@ -47,14 +47,17 @@
                                     {% endif %}
                                 </div>
                              </div>
+
                             <div class="input-group">
                               <label class="input-group-text mt-3" for="idquantitat">Cantidad</label>
                               <input type="number" class="form-control mt-3" id="idquantitat" name="idquantitat" min="0" max="10" value="0">
                             </div>
+                            <p class="mt-2"><b>Quantiat actual: {{ quantiatProducte }}</b></p>
                             <div class="cart mt-5 mb-4 align-items-center" style="float: right;">
                                 <button type="submit" class="btn btn-danger text-uppercase mr-2 px-4" href="/addPorductCar">Add to cart</button>
                                 <i class="fa fa-heart text-muted"></i>
                                 <i class="fa fa-share-alt text-muted"></i>
+                                <a href="/producto/delete" class="btn btn-dark">Delete all</a>
                             </div>
                         </div>
                     </div>
